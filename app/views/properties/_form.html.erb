@@ -1,4 +1,5 @@
-<%= form_with(model: property, local: true) do |form| %>
+<%= form_with(model: @property, local: true) do |form| %>
+
   <% if property.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(property.errors.count, "error") %> prohibited this property from being saved:</h2>
@@ -36,7 +37,30 @@
     <%= form.text_area :others %>
   </div>
 
+ <hr>
+
+ <%= form.fields_for :neareststations do |g| %>
+
+    <div class="field">
+      <%= g.label :route_names %>
+      <%= g.text_field :route_names%>
+    </div>
+
+    <div class="field">
+      <%= g.label :station_name %>
+      <%= g.text_field :station_name %>
+    </div>
+
+    <div class="field">
+      <%= g.label :minutes_on_foot %>
+      <%= g.number_field :minutes_on_foot %>
+    </div>
+
+
+  <% end %>
+
   <div class="actions">
     <%= form.submit %>
   </div>
+
 <% end %>
