@@ -39,11 +39,11 @@
 
  <hr>
 
- <%= form.fields_for :neareststations do |g| %>
+  <%= form.fields_for :neareststation do |g| %>
 
     <div class="field">
       <%= g.label :route_names %>
-      <%= g.text_field :route_names%>
+      <%= g.text_field :route_names %>
     </div>
 
     <div class="field">
@@ -55,7 +55,6 @@
       <%= g.label :minutes_on_foot %>
       <%= g.number_field :minutes_on_foot %>
     </div>
-
 
   <% end %>
 

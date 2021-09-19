@@ -23,6 +23,7 @@ class PropertiesController < ApplicationController
   # POST /properties or /properties.json
   def create
     @property = Property.new(property_params)
+    @neareststation = @property.nearest_stations.new(id: params[:id])
 
     respond_to do |format|
       if @property.save
