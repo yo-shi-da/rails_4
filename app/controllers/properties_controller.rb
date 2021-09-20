@@ -8,6 +8,7 @@ class PropertiesController < ApplicationController
 
   # GET /properties/1 or /properties/1.json
   def show
+    @neareststation = NearestStation.where(property_id: @property.id).pluck(:route_name, :station_name, :minutes_on_foot)
   end
 
   # GET /properties/new
@@ -18,13 +19,12 @@ class PropertiesController < ApplicationController
 
   # GET /properties/1/edit
   def edit
+    @property.nearest_stations.build
   end
 
   # POST /properties or /properties.json
   def create
     @property = Property.new(property_params)
-    @neareststation = @property.nearest_stations.new(id: params[:id])
-
     respond_to do |format|
       if @property.save
         format.html { redirect_to @property, notice: "Property was successfully created." }
@@ -51,7 +51,7 @@ class PropertiesController < ApplicationController
 
   # DELETE /properties/1 or /properties/1.json
   def destroy
-    @property.destroy
+    @property.destroy 
     respond_to do |format|
       format.html { redirect_to properties_url, notice: "Property was successfully destroyed." }
       format.json { head :no_content }
@@ -62,10 +62,11 @@ class PropertiesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_property
       @property = Property.find(params[:id])
+      # @neareststation = NearestStation.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def property_params
-      params.require(:property).permit(:property_name, :rent, :address, :age, :others, nearest_stations_attributes: [:route_names, :station_name, :minutes_on_foot])
+      params.require(:property).permit(:property_name, :rent, :address, :age, :others, nearest_stations_attributes: [:id, :route_name, :station_name, :minutes_on_foot, :property_id])
     end
 end
